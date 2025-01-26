@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <title>Home/Mine</title>
+</head>
+<body>
+    <nav>
+        <ul class="nav">
+            <li><a href="/">Home/Mine</a></li>
+            <li><a href="/transact">Transact</a></li>
+            <li><a href="/play">Play</a></li>
+            <li><a href="/learn">Learn</a></li>
+            <li><a href="/transactions">Transactions</a></li>
+            <li><a href="/block_explorer">Block Explorer</a></li>
+        </ul>
+    </nav>
+
+    <div class="wallet">
+        <p><strong>User:</strong> {{ current_user.username if user_logged_in else "Guest" }}</p>
+        <p><strong>Balance:</strong> {{ wallet_balance }} coins</p>
+        <p><strong>Wallet Hash:</strong> {{ wallet_hash }}</p>
+        {% if not user_logged_in %}
+            <a href="/login" class="button">Login</a>
+            <a href="/register" class="button">Register</a>
+        {% else %}
+            <a href="/logout" class="button">Logout</a>
+        {% endif %}
+    </div>
+
+    <div class="main-content">
+        <h1>Blockchain Mining Demo</h1>
+        <div class="block">
+            <h3>Block Details</h3>
+            <p><strong>Version:</strong> 1.0</p>
+            <p><strong>Previous Hash:</strong> {{ previous_hash }}</p>
+            <p><strong>Merkle Root:</strong> {{ merkle_root }}</p>
+            <p><strong>Timestamp:</strong> {{ timestamp }}</p>
+            <p><strong>Difficulty:</strong> {{ difficulty }}</p>
+            <p><strong>Nonce:</strong> {{ nonce }}</p>
+            <p><strong>Block Hash:</strong> {{ block_hash }}</p>
+        </div>
+
+        <div class="actions">
+            <button id="mineButton" class="button">Mine Block</button>
+        </div>
+    </div>
+
+    <!-- Pop-up Modal -->
+    <div id="popup" class="popup hidden">
+        <div class="popup-content">
+            <p id="popupMessage"></p>
+            <button id="closePopup" class="button">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('mineButton').addEventListener('click', async () => {
+            const response = await fetch('/mine', { method: 'POST' });
+            const data = await response.json();
+
+            const popup = document.getElementById('popup');
+            const popupMessage = document.getElementById('popupMessage');
+            popupMessage.textContent = data.message;
+
+            if (data.success) {
+                popup.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('closePopup').addEventListener('click', () => {
+            document.getElementById('popup').classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
